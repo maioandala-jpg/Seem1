@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEEM — Só o que importa</title>
+
+<!-- SEO -->
+<meta name="description" content="SEEM — Só o que importa. Cobertura em tempo real da Copa do Mundo 2026. As notícias mais quentes, filtradas e diretas ao ponto.">
+<meta name="keywords" content="SEEM, Copa do Mundo 2026, futebol, notícias, Brasil, seleção">
+<meta name="author" content="SEEM">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph (WhatsApp, Facebook, LinkedIn) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SEEM">
+<meta property="og:title" content="SEEM — Só o que importa">
+<meta property="og:description" content="Cobertura em tempo real da Copa do Mundo 2026. As notícias mais quentes, filtradas e diretas ao ponto.">
+<meta property="og:image" content="https://i.ibb.co/qYtWZg4n/1000041444.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="pt_BR">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SEEM — Só o que importa">
+<meta name="twitter:description" content="Cobertura em tempo real da Copa do Mundo 2026.">
+<meta name="twitter:image" content="https://i.ibb.co/qYtWZg4n/1000041444.jpg">
+
+<!-- Favicon SVG inline -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230a0a0a'/><text y='50%25' x='50%25' font-size='62' font-family='system-ui,sans-serif' font-weight='900' fill='%23FFD700' text-anchor='middle' dominant-baseline='central'>S</text></svg>">
+<meta name="theme-color" content="#0a0a0a">
+<style>
+/* ═══════════════════════════════════════════
+   RESET & TOKENS
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:   #0a0a0a;
+  --surface: #111111;
+  --card:    #161616;
+  --border:  #222222;
+  --text:    #f5f5f5;
+  --muted:   #999999;
+  --gold:    #FFD700;
+  --red:     #FF3333;
+  --orange:  #FF6B00;
+  --blue:    #4A9EFF;
+  --font:    -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════════
+   TICKER AO VIVO
+═══════════════════════════════════════════ */
+#live-ticker {
+  display: none;
+  background: var(--red);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 6px 16px;
+  animation: tickerPulse 2s ease-in-out infinite;
+}
+
+#live-ticker.visible { display: block; }
+
+@keyframes tickerPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+
+/* ═══════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════ */
+#site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,10,0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-bottom: 1px solid rgba(255,215,0,0.2);
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.logo-tag {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-top: 2px;
+}
+
+.header-right {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-align: right;
+}
+
+#live-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--red);
+  margin-right: 5px;
+  animation: dotPulse 1.5s ease-in-out infinite;
+  vertical-align: middle;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* NAV */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.header-nav::-webkit-scrollbar { display: none; }
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 12px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.nav-btn:hover { color: var(--text); }
+.nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ═══════════════════════════════════════════
+   EMPTY STATE
+═══════════════════════════════════════════ */
+#empty-state {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+  text-align: center;
+  padding: 40px;
+}
+
+#empty-state.visible { display: flex; }
+
+.empty-logo {
+  font-size: 64px;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  opacity: 0.15;
+}
+
+.empty-msg {
+  font-size: 16px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  animation: breathe 3s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════
+   MANUTENÇÃO
+═══════════════════════════════════════════ */
+#maintenance-screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 40px;
+}
+
+#maintenance-screen.visible { display: flex; }
+
+.maintenance-logo {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+
+.maintenance-icon { font-size: 56px; margin-bottom: 20px; }
+
+.maintenance-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.maintenance-text {
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 420px;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════
+   MAIN CONTENT
+═══════════════════════════════════════════ */
+#main-content { display: none; }
+#main-content.visible { display: block; }
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+#hero {
+  position: relative;
+  width: 100%;
+  min-height: 480px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.4s ease;
+}
+
+#hero:hover .hero-bg { transform: scale(1.02); }
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.95) 0%,
+    rgba(0,0,0,0.6) 50%,
+    rgba(0,0,0,0.15) 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 32px 36px;
+  width: 100%;
+}
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.badge-temp {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+
+.badge-muito  { background: rgba(255,51,51,0.2);  color: var(--red);    border: 1px solid rgba(255,51,51,0.4); }
+.badge-quente { background: rgba(255,107,0,0.2);  color: var(--orange); border: 1px solid rgba(255,107,0,0.4); }
+.badge-fresca { background: rgba(74,158,255,0.2); color: var(--blue);   border: 1px solid rgba(74,158,255,0.4); }
+
+.badge-selecao {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hero-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #fff;
+  margin-bottom: 12px;
+  max-width: 780px;
+}
+
+.hero-summary {
+  font-size: 15px;
+  color: rgba(245,245,245,0.75);
+  max-width: 620px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.hero-/* ═══════════════════════════════════════════
+   COMENTÁRIOS
+═══════════════════════════════════════════ */
+.comments-wrap {
+  border-top: 1px solid rgba(255,215,0,0.15);
+  margin-top: 18px;
+  padding-top: 16px;
+}
+
+.comments-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.comment-form-row { display: flex; gap: 8px; }
+
+.comment-form input,
+.comment-form textarea {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 9px 11px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.comment-form input:focus,
+.comment-form textarea:focus { border-color: var(--gold); }
+
+.comment-form textarea {
+  resize: vertical;
+  min-height: 60px;
+  font-family: var(--font);
+}
+
+.comment-form-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.comment-char-count { font-size: 10px; color: var(--muted); }
+
+.btn-comment-submit {
+  background: var(--gold);
+  color: #1a1400;
+  border: none;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.btn-comment-submit:hover { opacity: 0.85; }
+.btn-comment-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.comments-list { display: flex; flex-direction: column; gap: 14px; }
+
+.comment-item { display: flex; gap: 10px; animation: fadeSlide 0.3s ease; }
+
+.comment-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), #b8930a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: #1a1400;
+  flex-shrink: 0;
+}
+
+.comment-body { flex: 1; min-width: 0; }
+
+.comment-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 3px;
+  flex-wrap: wrap;
+}
+
+.comment-author { font-size: 13px; font-weight: 700; color: var(--text); }
+.comment-time { font-size: 10px; color: var(--muted); }
+
+.comment-text {
+  font-size: 13px;
+  color: rgba(245,245,245,0.85);
+  line-height: 1.5;
+  word-break: break-word;
+  margin-bottom: 6px;
+}
+
+.comment-actions { display: flex; align-items: center; gap: 14px; }
+
+.comment-like-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.comment-like-btn:hover { color: var(--gold); }
+.comment-like-btn.liked { color: var(--gold); }
+
+.comment-reply-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.comment-reply-btn:hover { color: var(--gold); }
+
+.comment-replies {
+  margin-top: 12px;
+  padding-left: 16px;
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comment-reply-form { display: none; margin-top: 10px; gap: 6px; flex-direction: column; }
+.comment-reply-form.open { display: flex; }
+
+.comments-empty {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  padding: 16px 0;
+}
+
+.comments-loading {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  padding: 10px 0;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.time-tag {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.btn-expand {
+  background: none;
+  border: 1px solid rgba(255,215,0,0.4);
+  color: var(--gold);
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-expand:hover {
+  background: rgba(255,215,0,0.1);
+  border-color: var(--gold);
+}
+
+/* ═══════════════════════════════════════════
+   EXPANDED TEXT
+═══════════════════════════════════════════ */
+.expanded-text {
+  display: none;
+  padding: 20px 36px 28px;
+  background: rgba(255,255,255,0.04);
+  border-top: 1px solid rgba(255,215,0,0.1);
+  font-size: 15px;
+  line-height: 1.75;
+  color: rgba(245,245,245,0.85);
+  animation: fadeSlide 0.3s ease;
+}
+
+.expanded-text.open { display: block; }
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════
+   GRID
+═══════════════════════════════════════════ */
+.grid-wrap {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 0;
+  margin-top: 2px;
+}
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 0 16px;
+}
+
+.section-divider-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.section-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(255,215,0,0.3), transparent);
+}
+
+/* MAIN COLUMN */
+.col-main {
+  border-right: 1px solid var(--border);
+  padding-right: 28px;
+}
+
+/* CARD GRANDE */
+.card-big {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--border);
+  padding: 20px 0;
+  cursor: pointer;
+  transition: transform 0.15s;
+  animation: fadeSlide 0.35s ease both;
+}
+
+.card-big:hover { transform: translateX(3px); }
+.card-big:hover .card-big-title { color: var(--gold); }
+
+.card-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--border);
+  margin-bottom: 14px;
+}
+
+.card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card-big:hover .card-img-wrap img { transform: scale(1.03); }
+
+.badge-corner {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.card-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.card-big-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 8px;
+  transition: color 0.2s;
+}
+
+.card-summary {
+  font-size: 13px;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-expand-sm {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.btn-expand-sm:hover { color: var(--gold); }
+
+/* SIDEBAR */
+.col-sidebar {
+  padding-left: 24px;
+}
+
+.card-compact {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  padding-left: 12px;
+  margin-left: -14px;
+  transition: border-color 0.2s, background 0.2s;
+  animation: fadeSlide 0.35s ease both;
+}
+
+.card-compact:hover {
+  border-left-color: var(--gold);
+  background: rgba(255,215,0,0.03);
+}
+
+.card-compact-title {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text);
+  margin-bottom: 8px;
+  transition: color 0.2s;
+}
+
+.card-compact:hover .card-compact-title { color: var(--gold); }
+
+.card-compact-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  border-top: 1px solid rgba(255,215,0,0.2);
+  margin-top: 48px;
+  padding: 20px 24px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+footer strong { color: var(--gold); }
+
+/* ═══════════════════════════════════════════
+   SEEN INDICATOR
+═══════════════════════════════════════════ */
+.seen-dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-left: 6px;
+  vertical-align: middle;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.seen .seen-dot { opacity: 0; }
+.unseen .seen-dot { opacity: 1; }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .grid-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .col-main { border-right: none; padding-right: 0; }
+  .col-sidebar { padding-left: 0; border-top: 1px solid var(--border); margin-top: 16px; }
+
+  .hero-content { padding: 24px 20px; }
+  .hero-title   { font-size: 1.6rem; }
+  .header-top   { padding: 12px 16px; }
+  .wrap         { padding: 0 14px; }
+
+  .expanded-text { padding: 16px 20px 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div id="live-ticker">● AO VIVO — Atualizações em tempo real da Copa 2026</div>
+
+<!-- HEADER -->
+<header id="site-header">
+  <div class="header-top">
+    <div>
+      <div class="logo">SEEM</div>
+      <span class="logo-tag">Só o que importa</span>
+    </div>
+    <div class="header-right">
+      <span id="live-dot"></span>
+      <span id="clock"></span><br>
+      <span>Copa do Mundo 2026</span>
+    </div>
+  </div>
+  <nav class="header-nav">
+    <button class="nav-btn active" data-filter="todos" onclick="setFilter('todos',this)">Todos</button>
+    <button class="nav-btn" data-filter="muito"  onclick="setFilter('muito',this)">🌋 Ao Vivo</button>
+    <button class="nav-btn" data-filter="quente" onclick="setFilter('quente',this)">🔥 Quente</button>
+    <button class="nav-btn" data-filter="fresca" onclick="setFilter('fresca',this)">🧊 Análise</button>
+    <button class="nav-btn" data-filter="sel:Brasil"     onclick="setFilter('sel:Brasil',this)">🇧🇷 Brasil</button>
+    <button class="nav-btn" data-filter="sel:Argentina"  onclick="setFilter('sel:Argentina',this)">🇦🇷 Argentina</button>
+    <button class="nav-btn" data-filter="sel:França"     onclick="setFilter('sel:França',this)">🇫🇷 França</button>
+    <button class="nav-btn" data-filter="sel:Portugal"   onclick="setFilter('sel:Portugal',this)">🇵🇹 Portugal</button>
+    <button class="nav-btn" data-filter="sel:Inglaterra" onclick="setFilter('sel:Inglaterra',this)">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra</button>
+  </nav>
+</header>
+
+<!-- MANUTENÇÃO -->
+<div id="maintenance-screen">
+  <div class="maintenance-logo">SEEM</div>
+  <div class="maintenance-icon">🛠️</div>
+  <div class="maintenance-title">Em manutenção</div>
+  <div class="maintenance-text">Estamos fazendo alguns ajustes para melhorar sua experiência. Voltamos em breve com a cobertura completa da Copa 2026.</div>
+</div>
+
+<!-- EMPTY STATE -->
+<div id="empty-state">
+  <div class="empty-logo">SEEM</div>
+  <div class="empty-msg">Monitorando a Copa... 👁️</div>
+</div>
+
+<!-- MAIN -->
+<div id="main-content">
+
+  <!-- HERO -->
+  <div id="hero" onclick="toggleHero()">
+    <div class="hero-bg" id="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content" id="hero-content"></div>
+  </div>
+  <div class="expanded-text" id="hero-expanded"><div class="comments-wrap" id="comments-wrap-hero"></div></div>
+
+  <!-- GRID -->
+  <div class="wrap">
+    <div class="grid-wrap">
+      <div class="col-main" id="col-main"></div>
+      <div class="col-sidebar" id="col-sidebar"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>SEEM</strong> © 2026 — Curadoria humana, publicação inteligente
+</footer>
+
+<script>
+// ═══════════════════════════════════════════
+// DADOS MOCK
+// ═══════════════════════════════════════════
+const MOCK = [
+  {
+    titulo: "Brasil vira nos acréscimos e está nas quartas: Endrick decide com gol de placa",
+    texto: "Num Estádio MetLife lotado, o Brasil sofreu até o último segundo, mas Endrick, aos 93 minutos, recebeu de Rodrygo, girou sobre dois marcadores e bateu no ângulo esquerdo de Courtois para dar a classificação ao Scratch. A seleção de Dorival Júnior jogou mal nas duas primeiras fases, mas mostrou sangue frio no momento decisivo. Nas quartas, enfrentará a França, no próximo sábado. A torcida verde-amarela invadiu as ruas de Nova York em festa.",
+    selecao: "Brasil", temp: "muito",
+    imagem: "https://i.ibb.co/qYtWZg4n/1000041444.jpg",
+    ts: Date.now() - 1000 * 60 * 18
+  },
+  {
+    titulo: "Argentina empata com a Espanha e semifinal fica em aberto após primeiro jogo",
+    texto: "Em Dallas, Argentina e Espanha ficaram no 1 a 1 num jogo de altíssimo nível técnico. Lautaro Martinez abriu o placar no primeiro tempo com uma cavadinha precisa, mas Pedri empatou numa cobrança de falta impecável. O jogo de volta é daqui a quatro dias em Los Angeles.",
+    selecao: "Argentina", temp: "quente",
+    imagem: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=900&q=80",
+    ts: Date.now() - 1000 * 60 * 55
+  },
+  {
+    titulo: "Portugal goleia Marrocos por 4 a 0 e avança às quartas com autoridade",
+    texto: "Com dois gols de Bruno Fernandes e assistências impecáveis, Portugal não deixou dúvidas. Roberto Martínez escalou uma equipe mais defensiva e conseguiu controlar o meio-campo durante toda a partida. Cristiano Ronaldo saiu lesionado aos 30 minutos do segundo tempo, gerando preocupação na delegação portuguesa.",
+    selecao: "Portugal", temp: "quente",
+    imagem: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=900&q=80",
+    ts: Date.now() - 1000 * 60 * 120
+  },
+  {
+    titulo: "França confirma favoritismo: Mbappé marca hat-trick e elimina Alemanha",
+    texto: "Kylian Mbappé viveu uma noite mágica em Chicago. Três gols, duas assistências, e uma atuação que pode entrar para a história da Copa. A Alemanha até pressionou no segundo tempo, mas a defesa francesa, liderada por Upamecano, não cedeu. Nas quartas, a França espera o vencedor de Brasil x Uruguai.",
+    selecao: "França", temp: "muito",
+    imagem: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=900&q=80",
+    ts: Date.now() - 1000 * 60 * 200
+  },
+  {
+    titulo: "Inglaterra elimina Holanda nos pênaltis após 120 minutos de tensão",
+    texto: "Kane converteu o pênalti decisivo e a torcida inglesa explodiu. Após 0 a 0 no tempo normal e na prorrogação, o goleiro Pickford foi o herói ao defender duas cobranças holandesas. A Inglaterra enfrenta agora o Uruguai nas quartas, num confronto que promete ser aberto.",
+    selecao: "Inglaterra", temp: "quente",
+    imagem: "https://images.unsplash.com/photo-1553778263-73a83bab9b0c?w=900&q=80",
+    ts: Date.now() - 1000 * 60 * 300
+  },
+  {
+    titulo: "Análise tática: como Dorival mudou o Brasil e por que pode funcionar contra a França",
+    texto: "A mudança para o 4-2-3-1 nas oitavas foi o divisor de águas da campanha brasileira. Com Gerson e Bruno Guimarães como dupla de volantes, o Brasil passou a ter mais consistência defensiva sem perder a criatividade. Contra a França de Mbappé, a prova de fogo será segurar as transições rápidas dos Bleus.",
+    selecao: "Brasil", temp: "fresca",
+    imagem: "",
+    ts: Date.now() - 1000 * 60 * 400
+  },
+  {
+    titulo: "Mbappé ou Endrick? A briga pela Bola de Ouro se decide nas quartas de final",
+    texto: "Com as performances nas oitavas, os dois jovens atacantes se projetaram como os maiores candidatos ao prêmio individual. Mbappé lidera a artilharia com 6 gols; Endrick tem 4 e 3 assistências. O confronto direto Brasil x França pode ser o jogo da Copa.",
+    selecao: "Outro", temp: "quente",
+    imagem: "",
+    ts: Date.now() - 1000 * 60 * 500
+  },
+  {
+    titulo: "Cristiano Ronaldo descartado das quartas; Seleção de Portugal treina sem capitão",
+    texto: "Exames confirmaram lesão muscular na coxa direita. O atacante de 41 anos assistirá do banco ao duelo de Portugal contra a Espanha. Roberto Martínez confirmou que Gonçalo Ramos será o titular e pediu 'confiança total' no grupo.",
+    selecao: "Portugal", temp: "muito",
+    imagem: "",
+    ts: Date.now() - 1000 * 60 * 35
+  }
+];
+
+// ═══════════════════════════════════════════
+// ESTADO
+// ═══════════════════════════════════════════
+const CHAVE   = 'seem_noticias';
+const VISTO   = 'seem_vistos';
+let filtroAtivo = 'todos';
+let heroAberto  = false;
+let audioCtx    = null;
+
+// ── Firebase Realtime Database (armazenamento compartilhado) ──
+const FIREBASE_URL    = 'https://seem-news-default-rtdb.firebaseio.com/noticias.json';
+const MANUTENCAO_URL  = 'https://seem-news-default-rtdb.firebaseio.com/manutencao.json';
+
+async function verificarManutencao() {
+  try {
+    const resp = await fetch(MANUTENCAO_URL);
+    if (!resp.ok) return false;
+    const data = await resp.json();
+    return data === true;
+  } catch(e) {
+    console.error('Erro ao verificar manutenção:', e);
+    return false; // em caso de falha, não bloqueia o site
+  }
+}
+
+async function buscarNoticiasRemotas() {
+  try {
+    const resp = await fetch(FIREBASE_URL);
+    if (!resp.ok) return null;
+    const arr = await resp.json();
+    if (Array.isArray(arr) && arr.length) {
+      localStorage.setItem(CHAVE, JSON.stringify(arr));
+      return arr;
+    }
+    if (arr === null || (Array.isArray(arr) && !arr.length)) {
+      // Firebase vazio: não sobrescreve o localStorage — mantém mock ou dados anteriores
+      return null;
+    }
+  } catch(e) {
+    console.error('Erro ao buscar notícias remotas:', e);
+  }
+  return null;
+}
+
+function carregarNoticias() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CHAVE));
+    if (saved && saved.length) return saved;
+  } catch(e) {}
+  return MOCK; // fallback: mostra dados mock enquanto Firebase carrega
+}
+
+function carregarVistos() {
+  try { return JSON.parse(localStorage.getItem(VISTO)) || {}; }
+  catch { return {}; }
+}
+
+function marcarVisto(ts) {
+  const v = carregarVistos();
+  v[ts] = true;
+  localStorage.setItem(VISTO, JSON.stringify(v));
+}
+
+// ═══════════════════════════════════════════
+// SCORING
+// ═══════════════════════════════════════════
+function score(n) {
+  const tempPts = n.temp === 'muito' ? 100 : n.temp === 'quente' ? 50 : 10;
+  const ageMins = (Date.now() - n.ts) / 60000;
+  const novidade = Math.max(0, 200 - ageMins);
+  const vistos   = carregarVistos();
+  const vistoPen = vistos[n.ts] ? -30 : 0;
+  return tempPts + novidade + vistoPen;
+}
+
+function ordenar(arr) {
+  return [...arr].sort((a,b) => score(b) - score(a));
+}
+
+// ═══════════════════════════════════════════
+// FILTRO
+// ═══════════════════════════════════════════
+function setFilter(f, btn) {
+  filtroAtivo = f;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderizar();
+}
+
+function filtrar(arr) {
+  if (filtroAtivo === 'todos') return arr;
+  if (filtroAtivo.startsWith('sel:')) {
+    const sel = filtroAtivo.split(':')[1];
+    return arr.filter(n => n.selecao === sel);
+  }
+  return arr.filter(n => n.temp === filtroAtivo);
+}
+
+// ═══════════════════════════════════════════
+// TEMPO RELATIVO
+// ═══════════════════════════════════════════
+function tempoRel(ts) {
+  const m = Math.floor((Date.now() - ts) / 60000);
+  if (m < 1)  return 'agora mesmo';
+  if (m < 60) return `há ${m} min`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `há ${h}h`;
+  return `há ${Math.floor(h/24)}d`;
+}
+
+// ═══════════════════════════════════════════
+// BADGE HTML
+// ═══════════════════════════════════════════
+function badgeHTML(temp, cls='') {
+  const map = {
+    muito:  ['🌋', 'Ao Vivo', 'muito'],
+    quente: ['🔥', 'Quente',  'quente'],
+    fresca: ['🧊', 'Análise', 'fresca'],
+  };
+  const [ico, label, c] = map[temp] || ['','',''];
+  return `<span class="badge-temp badge-${c} ${cls}">${ico} ${label}</span>`;
+}
+
+function escHtml(s) {
+  return String(s||'')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ═══════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════
+function renderizar() {
+  const todas   = carregarNoticias();
+  const vistos  = carregarVistos();
+  const temVivo = todas.some(n => n.temp === 'muito');
+
+  // Ticker
+  const ticker = document.getElementById('live-ticker');
+  temVivo ? ticker.classList.add('visible') : ticker.classList.remove('visible');
+
+  const filtradas = filtrar(ordenar(todas));
+
+  if (!filtradas.length) {
+    document.getElementById('empty-state').classList.add('visible');
+    document.getElementById('main-content').classList.remove('visible');
+    return;
+  }
+
+  document.getElementById('empty-state').classList.remove('visible');
+  document.getElementById('main-content').classList.add('visible');
+
+  const [hero, ...resto] = filtradas;
+
+  // HERO
+  const heroBg = document.getElementById('hero-bg');
+  heroBg.style.backgroundImage = hero.imagem
+    ? `url('${escHtml(hero.imagem)}')`
+    : 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)';
+
+  document.getElementById('hero-content').innerHTML = `
+    <div class="hero-meta">
+      ${badgeHTML(hero.temp)}
+      <span class="badge-selecao">${escHtml(hero.selecao)}</span>
+    </div>
+    <h1 class="hero-title">${escHtml(hero.titulo)}</h1>
+    <p class="hero-summary">${escHtml(hero.texto)}</p>
+    <div class="hero-footer">
+      <span class="time-tag">${tempoRel(hero.ts)}</span>
+      <button class="btn-expand" onclick="toggleHero(event)">
+        ${heroAberto ? '▲ Fechar' : '▼ Ler mais'}
+      </button>
+    </div>
+  `;
+
+  const heroExp = document.getElementById('hero-expanded');
+  heroExp.textContent = hero.texto;
+  heroAberto ? heroExp.classList.add('open') : heroExp.classList.remove('open');
+
+  // Armazena TS do hero atual
+  document.getElementById('hero').dataset.ts = hero.ts;
+
+  // GRID — quentes na main, frescos/análises na sidebar
+  const mainNoticias    = resto.filter((n,i) => i < 5);
+  const sidebarNoticias = resto.filter((n,i) => i >= 5 && i < 12);
+
+  // MAIN COLUMN
+  const colMain = document.getElementById('col-main');
+  colMain.innerHTML = `
+    <div class="section-divider">
+      <span class="section-divider-label">Mais quente</span>
+      <div class="section-divider-line"></div>
+    </div>
+  `;
+
+  mainNoticias.forEach((n, i) => {
+    const visto = vistos[n.ts] ? 'seen' : 'unseen';
+    const imgHTML = n.imagem
+      ? `<div class="card-img-wrap">
+           <img src="${escHtml(n.imagem)}" alt="" loading="lazy">
+           <div class="badge-corner">${badgeHTML(n.temp)}</div>
+         </div>`
+      : `<div class="badge-corner" style="position:relative;margin-bottom:8px">${badgeHTML(n.temp)}</div>`;
+
+    const div = document.createElement('div');
+    div.className = `card-big ${visto}`;
+    div.style.animationDelay = `${i * 0.06}s`;
+    div.dataset.ts = n.ts;
+    div.innerHTML = `
+      ${imgHTML}
+      <div class="card-eyebrow">${escHtml(n.selecao)}</div>
+      <h2 class="card-big-title">${escHtml(n.titulo)}<span class="seen-dot"></span></h2>
+      <p class="card-summary">${escHtml(n.texto)}</p>
+      <div class="card-footer">
+        <span class="time-tag">${tempoRel(n.ts)}</span>
+        <button class="btn-expand-sm" onclick="toggleCard(event, this)">Ler mais ▾</button>
+      </div>
+      <div class="expanded-text" style="padding:12px 0 0;border-top:1px solid var(--border);margin-top:8px">${escHtml(n.texto)}<div class="comments-wrap" id="comments-wrap-${n.ts}"></div></div>
+    `;
+    colMain.appendChild(div);
+  });
+
+  // SIDEBAR
+  const colSidebar = document.getElementById('col-sidebar');
+  colSidebar.innerHTML = `
+    <div class="section-divider">
+      <span class="section-divider-label">Análises</span>
+      <div class="section-divider-line"></div>
+    </div>
+  `;
+
+  sidebarNoticias.forEach((n, i) => {
+    const visto = vistos[n.ts] ? 'seen' : 'unseen';
+    const div = document.createElement('div');
+    div.className = `card-compact ${visto}`;
+    div.style.animationDelay = `${i * 0.05}s`;
+    div.dataset.ts = n.ts;
+    div.onclick = () => toggleCard(null, div.querySelector('.btn-expand-sm'));
+    div.innerHTML = `
+      <div class="card-eyebrow">${badgeHTML(n.temp)} ${escHtml(n.selecao)}</div>
+      <div class="card-compact-title">${escHtml(n.titulo)}<span class="seen-dot"></span></div>
+      <div class="card-compact-foot">
+        <span class="time-tag">${tempoRel(n.ts)}</span>
+        <button class="btn-expand-sm" onclick="toggleCard(event, this)">▾</button>
+      </div>
+      <div class="expanded-text" style="padding:10px 0 0;border-top:1px solid var(--border);margin-top:8px;font-size:13px">${escHtml(n.texto)}<div class="comments-wrap" id="comments-wrap-${n.ts}"></div></div>
+    `;
+    colSidebar.appendChild(div);
+  });
+}
+
+// ═══════════════════════════════════════════
+// EXPAND / COLLAPSE
+// ═══════════════════════════════════════════
+function toggleHero(e) {
+  if (e) e.stopPropagation();
+  heroAberto = !heroAberto;
+  const ts = document.getElementById('hero').dataset.ts;
+  if (heroAberto && ts) marcarVisto(ts);
+  renderizar();
+  if (heroAberto && ts) {
+    setTimeout(() => montarComentarios(ts, 'comments-wrap-hero'), 0);
+  }
+}
+
+function toggleCard(e, btn) {
+  if (e) e.stopPropagation();
+  const card = btn.closest('.card-big, .card-compact');
+  const exp  = card.querySelector('.expanded-text');
+  const isOpen = exp.classList.contains('open');
+
+  exp.classList.toggle('open');
+  const isNowOpen = exp.classList.contains('open');
+
+  if (btn.classList.contains('btn-expand-sm')) {
+    btn.textContent = isNowOpen ? 'Fechar ▴' : 'Ler mais ▾';
+    if (btn.textContent === '▾' || btn.textContent === '▴') {
+      btn.textContent = isNowOpen ? '▴' : '▾';
+    }
+  }
+
+  if (isNowOpen && card.dataset.ts) {
+    marcarVisto(card.dataset.ts);
+    card.classList.remove('unseen');
+    card.classList.add('seen');
+    montarComentarios(card.dataset.ts, 'comments-wrap-' + card.dataset.ts);
+  }
+}
+
+// ═══════════════════════════════════════════
+// BEEP (Web Audio API)
+// ═══════════════════════════════════════════
+function beep() {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc  = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.frequency.value = 880;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.05);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.4);
+    osc.start(audioCtx.currentTime);
+    osc.stop(audioCtx.currentTime + 0.5);
+  } catch(e) {}
+}
+
+// ═══════════════════════════════════════════
+// POLLING — verifica novidades a cada 60s
+// ═══════════════════════════════════════════
+let ultimoCount = 0;
+let ultimoTs    = 0;
+
+async function verificarNovidades() {
+  await buscarNoticiasRemotas();
+
+  const arr = carregarNoticias();
+  const novoCount = arr.length;
+  const novoTs    = arr.reduce((mx,n) => Math.max(mx,n.ts), 0);
+
+  if (novoCount !== ultimoCount || novoTs !== ultimoTs) {
+    const temVivo = arr.some(n => n.temp === 'muito' && n.ts > ultimoTs);
+    if (temVivo && ultimoTs > 0) beep();
+    ultimoCount = novoCount;
+    ultimoTs    = novoTs;
+    renderizar();
+  }
+}
+
+// ═══════════════════════════════════════════
+// RELÓGIO
+// ═══════════════════════════════════════════
+function atualizarRelogio() {
+  const el = document.getElementById('clock');
+  if (!el) return;
+  el.textContent = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+function mostrarTelaManutencao(ativo) {
+  const tela = document.getElementById('maintenance-screen');
+  const empty = document.getElementById('empty-state');
+  const main = document.getElementById('main-content');
+  const header = document.getElementById('site-header');
+  const ticker = document.getElementById('live-ticker');
+
+  if (ativo) {
+    tela.classList.add('visible');
+    empty.classList.remove('visible');
+    main.classList.remove('visible');
+    if (header) header.style.display = 'none';
+    if (ticker) ticker.classList.remove('visible');
+  } else {
+    tela.classList.remove('visible');
+    if (header) header.style.display = '';
+  }
+}
+
+async function verificarManutencaoPeriodicamente() {
+  const ativo = await verificarManutencao();
+  mostrarTelaManutencao(ativo);
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  // Primeiro verifica se o site está em manutenção
+  const emManutencao = await verificarManutencao();
+  if (emManutencao) {
+    mostrarTelaManutencao(true);
+    // continua verificando a cada 60s para voltar ao ar automaticamente quando desativado
+    setInterval(verificarManutencaoPeriodicamente, 60_000);
+    return;
+  }
+
+  // Renderiza imediatamente com dados disponíveis (mock ou localStorage)
+  renderizar();
+  atualizarRelogio();
+
+  // Depois busca dados remotos e atualiza se houver novidades
+  await buscarNoticiasRemotas();
+
+  const arr = carregarNoticias();
+  ultimoCount = arr.length;
+  ultimoTs    = arr.reduce((mx,n) => Math.max(mx,n.ts), 0);
+
+  renderizar();
+
+  setInterval(verificarNovidades, 60_000);
+  setInterval(atualizarRelogio,    1_000);
+  setInterval(renderizar,        300_000); // rotação 5 min
+  setInterval(verificarManutencaoPeriodicamente, 60_000); // detecta se manutenção for ativada depois
+
+  // Curtidas fantasma: a cada ~40s recalcula o que deveria estar liberado
+  // para os comentários abertos na tela, e dispara notificação se subiu.
+  setInterval(atualizarCurtidasFantasmaNaTela, 40_000);
+});
+
+// ═══════════════════════════════════════════
+// COMENTÁRIOS (Firebase Realtime Database)
+// ═══════════════════════════════════════════
+const COMENTARIOS_BASE_URL = 'https://seem-news-default-rtdb.firebaseio.com/comentarios';
+const CURTIDAS_CHAVE = 'seem_curtidas'; // quais comentários este dispositivo já curtiu
+
+function getCurtidos() {
+  try { return JSON.parse(localStorage.getItem(CURTIDAS_CHAVE)) || {}; }
+  catch { return {}; }
+}
+
+function marcarCurtido(commentId) {
+  const c = getCurtidos();
+  c[commentId] = true;
+  localStorage.setItem(CURTIDAS_CHAVE, JSON.stringify(c));
+}
+
+function jaCurtiu(commentId) {
+  return !!getCurtidos()[commentId];
+}
+
+function escAttr(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function inicialAvatar(nome) {
+  return (nome || '?').trim().charAt(0).toUpperCase();
+}
+
+function corAvatar(nome) {
+  // gera uma cor consistente a partir do nome
+  const cores = ['#FFD700','#4A9EFF','#FF6B00','#27ae60','#9b59b6','#e74c3c','#1abc9c'];
+  let hash = 0;
+  for (let i = 0; i < (nome||'').length; i++) hash = (hash + nome.charCodeAt(i) * (i+1)) % cores.length;
+  return cores[hash];
+}
+
+function tempoRelComentario(ts) {
+  const s = Math.floor((Date.now() - ts) / 1000);
+  if (s < 60)    return 'agora mesmo';
+  const m = Math.floor(s/60);
+  if (m < 60)    return `há ${m} min`;
+  const h = Math.floor(m/60);
+  if (h < 24)    return `há ${h}h`;
+  return `há ${Math.floor(h/24)}d`;
+}
+
+async function buscarComentarios(noticiaTs) {
+  try {
+    const resp = await fetch(`${COMENTARIOS_BASE_URL}/${noticiaTs}.json`);
+    if (!resp.ok) return [];
+    const data = await resp.json();
+    if (!data) return [];
+    // data é um objeto { firebaseKey: {comentario} } — converte para array preservando a key
+    return Object.entries(data).map(([key, val]) => ({ ...val, _key: key }));
+  } catch(e) {
+    console.error('Erro ao buscar comentários:', e);
+    return [];
+  }
+}
+
+async function salvarComentario(noticiaTs, comentario) {
+  try {
+    const resp = await fetch(`${COMENTARIOS_BASE_URL}/${noticiaTs}.json`, {
+      method: 'POST', // POST gera uma key única automática no Firebase
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(comentario)
+    });
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    return data.name; // a key gerada
+  } catch(e) {
+    console.error('Erro ao salvar comentário:', e);
+    return null;
+  }
+}
+
+async function atualizarCurtidasRemoto(noticiaTs, commentKey, novoTotal) {
+  try {
+    await fetch(`${COMENTARIOS_BASE_URL}/${noticiaTs}/${commentKey}/likes.json`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(novoTotal)
+    });
+  } catch(e) {
+    console.error('Erro ao curtir:', e);
+  }
+}
+
+// ── Memória do identificador do visitante ──────────────────────
+// Guarda o nome no localStorage deste navegador. Assim que a
+// pessoa comenta uma vez, da próxima vez o formulário já vem
+// preenchido sozinho — só muda se ela limpar o cache/dados do site
+// ou clicar em "trocar" manualmente.
+const IDENTIDADE_CHAVE = 'seem_identidade_comentario';
+
+function getIdentidadeSalva() {
+  try { return JSON.parse(localStorage.getItem(IDENTIDADE_CHAVE)) || null; }
+  catch { return null; }
+}
+
+function salvarIdentidade(nome) {
+  try {
+    localStorage.setItem(IDENTIDADE_CHAVE, JSON.stringify({ nome }));
+  } catch(e) {}
+}
+
+function esquecerIdentidade(idSuffix) {
+  localStorage.removeItem(IDENTIDADE_CHAVE);
+  const nomeEl = document.getElementById(`nome-${idSuffix}`);
+  if (nomeEl) { nomeEl.value = ''; nomeEl.disabled = false; }
+  const tag = document.getElementById(`identidade-tag-${idSuffix}`);
+  if (tag) tag.remove();
+}
+
+function montarFormularioComentario(noticiaTs, parentKey = null) {
+  const idSuffix = parentKey ? `reply-${parentKey}` : `root-${noticiaTs}`;
+  const salva = getIdentidadeSalva();
+
+  const tagIdentidade = salva ? `
+    <div id="identidade-tag-${idSuffix}" style="font-size:10px;color:var(--muted);margin-bottom:4px">
+      Comentando como <strong style="color:var(--gold)">${escHtml(salva.nome)}</strong> ·
+      <a href="#" onclick="esquecerIdentidade('${idSuffix}');return false" style="color:var(--muted);text-decoration:underline">trocar</a>
+    </div>` : '';
+
+  const nomeVal  = salva ? `value="${escHtml(salva.nome)}"` : '';
+  const disabledAttr = salva ? 'readonly' : '';
+
+  return `
+    <div class="comment-form">
+      ${tagIdentidade}
+      <input type="text" id="nome-${idSuffix}" placeholder="Seu nome" maxlength="40" ${nomeVal} ${disabledAttr}>
+      <textarea id="texto-${idSuffix}" placeholder="${parentKey ? 'Escreva sua resposta...' : 'Deixe seu comentário sobre esta notícia...'}" maxlength="500" oninput="atualizarContador('${idSuffix}')"></textarea>
+      <div class="comment-form-foot">
+        <span class="comment-char-count" id="contador-${idSuffix}">500</span>
+        <button class="btn-comment-submit" onclick="enviarComentario('${noticiaTs}', ${parentKey ? `'${parentKey}'` : 'null'}, '${idSuffix}', this)">Publicar</button>
+      </div>
+    </div>
+  `;
+}
+
+function atualizarContador(idSuffix) {
+  const texto = document.getElementById(`texto-${idSuffix}`);
+  const contador = document.getElementById(`contador-${idSuffix}`);
+  if (texto && contador) contador.textContent = 500 - texto.value.length;
+}
+
+function renderComentario(c, noticiaTs) {
+  registrarMetaComentario(c); // guarda dados para o polling de curtidas fantasma
+
+  const nome = escHtml(c.nome || 'Anônimo');
+  const curtido = jaCurtiu(c._key) ? 'liked' : '';
+  const coracao = jaCurtiu(c._key) ? '♥' : '♡';
+  const likesReais = c.likes || 0;
+  const likesFantasmaLiberados = calcularLikesFantasmaLiberados(c);
+  const likes = likesReais + likesFantasmaLiberados;
+
+  const replies = (c.replies || []).map(r => `
+    <div class="comment-item">
+      <div class="comment-avatar" style="background:${corAvatar(r.nome)}">${inicialAvatar(r.nome)}</div>
+      <div class="comment-body">
+        <div class="comment-head">
+          <span class="comment-author">${escHtml(r.nome || 'Anônimo')}</span>
+          <span class="comment-time">${tempoRelComentario(r.ts)}</span>
+        </div>
+        <div class="comment-text">${escHtml(r.texto)}</div>
+      </div>
+    </div>
+  `).join('');
+
+  return `
+    <div class="comment-item" data-key="${c._key}">
+      <div class="comment-avatar" style="background:${corAvatar(c.nome)}">${inicialAvatar(c.nome)}</div>
+      <div class="comment-body">
+        <div class="comment-head">
+          <span class="comment-author">${nome}</span>
+          <span class="comment-time">${tempoRelComentario(c.ts)}</span>
+        </div>
+        <div class="comment-text">${escHtml(c.texto)}</div>
+        <div class="comment-actions">
+          <button class="comment-like-btn ${curtido}" onclick="curtirComentario('${noticiaTs}','${c._key}', this)">
+            <span class="coracao">${coracao}</span> <span class="like-count">${likes}</span>
+          </button>
+          <button class="comment-reply-btn" onclick="toggleReplyForm('${c._key}')">Responder</button>
+        </div>
+        <div class="comment-reply-form" id="reply-form-${c._key}">
+          ${montarFormularioComentario(noticiaTs, c._key)}
+        </div>
+        ${replies ? `<div class="comment-replies">${replies}</div>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+async function montarComentarios(noticiaTs, wrapId) {
+  const wrap = document.getElementById(wrapId);
+  if (!wrap) return;
+
+  wrap.innerHTML = `
+    <div class="comments-title">💬 Comentários</div>
+    ${montarFormularioComentario(noticiaTs)}
+    <div class="comments-loading" id="comments-loading-${noticiaTs}">Carregando comentários...</div>
+    <div class="comments-list" id="comments-list-${noticiaTs}"></div>
+  `;
+
+  const lista = await buscarComentarios(noticiaTs);
+  const loadingEl = document.getElementById(`comments-loading-${noticiaTs}`);
+  if (loadingEl) loadingEl.remove();
+
+  const listEl = document.getElementById(`comments-list-${noticiaTs}`);
+  if (!listEl) return;
+
+  if (!lista.length) {
+    listEl.innerHTML = '<div class="comments-empty">Seja o primeiro a comentar 💬</div>';
+    return;
+  }
+
+  // ordena por mais recente primeiro
+  lista.sort((a,b) => b.ts - a.ts);
+  listEl.innerHTML = lista.map(c => renderComentario(c, noticiaTs)).join('');
+}
+
+function toggleReplyForm(commentKey) {
+  const form = document.getElementById(`reply-form-${commentKey}`);
+  if (form) form.classList.toggle('open');
+}
+
+async function enviarComentario(noticiaTs, parentKey, idSuffix, btn) {
+  const nomeEl  = document.getElementById(`nome-${idSuffix}`);
+  const textoEl = document.getElementById(`texto-${idSuffix}`);
+
+  const nome  = (nomeEl?.value || '').trim() || 'Anônimo';
+  const texto = (textoEl?.value || '').trim();
+
+  if (!texto) { alert('Escreva algo antes de publicar.'); return; }
+  if (texto.length > 500) { alert('Comentário muito longo (máx. 500 caracteres).'); return; }
+
+  // memoriza o nome neste navegador para não precisar digitar de novo depois
+  salvarIdentidade(nome);
+
+  if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
+
+  if (parentKey) {
+    // resposta: busca o comentário pai, adiciona reply, salva de volta
+    const lista = await buscarComentarios(noticiaTs);
+    const pai = lista.find(c => c._key === parentKey);
+    if (pai) {
+      const replies = pai.replies || [];
+      replies.push({ nome, texto, ts: Date.now() });
+      try {
+        await fetch(`${COMENTARIOS_BASE_URL}/${noticiaTs}/${parentKey}/replies.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(replies)
+        });
+      } catch(e) { console.error(e); }
+    }
+  } else {
+    // comentário novo — sorteia o alvo de curtidas fantasma (23-47)
+    await salvarComentario(noticiaTs, {
+      nome, texto, ts: Date.now(),
+      likes: 0,            // curtidas reais de visitantes
+      likesAlvo: sortearAlvoFantasma()  // meta da curtida fantasma, liberada gradualmente
+    });
+  }
+
+  if (btn) { btn.disabled = false; btn.textContent = 'Publicar'; }
+  if (textoEl) textoEl.value = '';
+  if (nomeEl) nomeEl.value = '';
+
+  // descobre o wrapId certo: se for a notícia do hero, usa o wrap do hero;
+  // senão usa o wrap específico da notícia (card grande ou compacto)
+  const heroTs = document.getElementById('hero')?.dataset.ts;
+  const wrapId = (String(heroTs) === String(noticiaTs))
+    ? 'comments-wrap-hero'
+    : 'comments-wrap-' + noticiaTs;
+  montarComentarios(noticiaTs, wrapId);
+}
+
+async function curtirComentario(noticiaTs, commentKey, btn) {
+  if (jaCurtiu(commentKey)) return; // já curtiu, não deixa curtir de novo
+
+  const likeCountEl = btn.querySelector('.like-count');
+  const coracaoEl    = btn.querySelector('.coracao');
+  const totalExibidoAtual = parseInt(likeCountEl.textContent, 10) || 0;
+
+  // Mostra +1 na tela imediatamente (feedback visual instantâneo)
+  likeCountEl.textContent = totalExibidoAtual + 1;
+  coracaoEl.textContent = '♥';
+  btn.classList.add('liked');
+  marcarCurtido(commentKey);
+
+  // No banco de dados, só incrementamos o contador de curtidas REAIS (campo "likes"),
+  // nunca o total exibido — assim a curtida fantasma continua separada e intacta.
+  try {
+    const resp = await fetch(`${COMENTARIOS_BASE_URL}/${noticiaTs}/${commentKey}/likes.json`);
+    const likesReaisAtuais = (await resp.json()) || 0;
+    await atualizarCurtidasRemoto(noticiaTs, commentKey, likesReaisAtuais + 1);
+  } catch(e) {
+    console.error('Erro ao registrar curtida real:', e);
+  }
+}
+
+
+// ═══════════════════════════════════════════
+// CURTIDAS FANTASMA (prova social simulada)
+// ═══════════════════════════════════════════
+// Lógica: cada comentário recebe um "alvo" sorteado entre 23-47 ao ser criado.
+// Nas primeiras 5h, libera até 50% desse alvo de forma gradual (várias doses).
+// Depois das 5h, libera o restante muito lentamente, em pequenas doses por visita,
+// nunca tudo de uma vez — sempre deixando "mais para chegar depois".
+// Curtidas reais de visitantes somam-se livremente por cima, sem limite.
+
+const FANTASMA_NOTIF_CHAVE = 'seem_fantasma_notif_vistas';
+
+function sortearAlvoFantasma() {
+  return Math.floor(Math.random() * (47 - 23 + 1)) + 23; // 23 a 47
+}
+
+function calcularLikesFantasmaLiberados(comentario) {
+  const alvo = comentario.likesAlvo || 0;
+  if (!alvo) return 0;
+
+  const criadoEm = comentario.ts;
+  const horasDecorridas = (Date.now() - criadoEm) / (1000 * 60 * 60);
+
+  if (horasDecorridas <= 0) return 0;
+
+  let fracaoLiberada;
+  if (horasDecorridas >= 5) {
+    // após 5h: já tem 50% garantido, e o resto libera bem lentamente
+    // (curva logarítmica suave, nunca chega a 100% rápido — sempre "falta um pouco")
+    const horasExtras = horasDecorridas - 5;
+    const fracaoExtra = Math.min(0.45, Math.log(1 + horasExtras) * 0.12);
+    fracaoLiberada = 0.5 + fracaoExtra; // tende a ~95% no máximo, nunca trava em 100%
+  } else {
+    // 0h a 5h: cresce de 0% a 50% de forma suave (curva ease-out)
+    const progresso = horasDecorridas / 5;
+    fracaoLiberada = 0.5 * (1 - Math.pow(1 - progresso, 2));
+  }
+
+  return Math.min(alvo, Math.round(alvo * fracaoLiberada));
+}
+
+function getNotificacoesVistas() {
+  try { return JSON.parse(sessionStorage.getItem(FANTASMA_NOTIF_CHAVE)) || {}; }
+  catch { return {}; }
+}
+
+function marcarNotificacaoVista(commentKey, valor) {
+  const v = getNotificacoesVistas();
+  v[commentKey] = valor;
+  sessionStorage.setItem(FANTASMA_NOTIF_CHAVE, JSON.stringify(v));
+}
+
+// Guarda metadados (ts de criação + likesAlvo + likes reais) dos comentários
+// atualmente renderizados na tela, para podermos recalcular o fantasma sem
+// precisar buscar tudo de novo no Firebase a cada poucos segundos.
+const metaComentariosNaTela = {}; // { commentKey: { ts, likesAlvo, likes } }
+
+function registrarMetaComentario(c) {
+  metaComentariosNaTela[c._key] = { ts: c.ts, likesAlvo: c.likesAlvo || 0, likes: c.likes || 0 };
+}
+
+// Roda periodicamente: recalcula o fantasma liberado para cada comentário
+// visível na tela. Se o número subiu desde a última checagem, atualiza o
+// DOM e dispara a notificação discreta "alguém curtiu seu comentário".
+function atualizarCurtidasFantasmaNaTela() {
+  document.querySelectorAll('.comment-item[data-key]').forEach(item => {
+    const key = item.dataset.key;
+    const meta = metaComentariosNaTela[key];
+    if (!meta) return;
+
+    const likeCountEl = item.querySelector('.like-count');
+    if (!likeCountEl) return;
+
+    const fantasmaLiberado = calcularLikesFantasmaLiberados(meta);
+    const novoTotal = (meta.likes || 0) + fantasmaLiberado;
+    const totalAtualNaTela = parseInt(likeCountEl.textContent, 10) || 0;
+
+    if (novoTotal > totalAtualNaTela) {
+      likeCountEl.textContent = novoTotal;
+      mostrarNotificacaoCurtida();
+    }
+  });
+}
+
+let notifTimer;
+function mostrarNotificacaoCurtida() {
+  let el = document.getElementById('like-notif-toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'like-notif-toast';
+    el.style.position = 'fixed';
+    el.style.bottom = '20px';
+    el.style.left = '50%';
+    el.style.transform = 'translateX(-50%) translateY(10px)';
+    el.style.background = 'rgba(20,20,20,0.95)';
+    el.style.border = '1px solid rgba(255,215,0,0.3)';
+    el.style.color = '#FFD700';
+    el.style.fontSize = '12px';
+    el.style.fontWeight = '600';
+    el.style.padding = '10px 18px';
+    el.style.borderRadius = '20px';
+    el.style.zIndex = '9999';
+    el.style.opacity = '0';
+    el.style.transition = 'all 0.3s ease';
+    el.style.pointerEvents = 'none';
+    document.body.appendChild(el);
+  }
+  el.textContent = '❤️ Alguém curtiu seu comentário';
+  el.style.opacity = '1';
+  el.style.transform = 'translateX(-50%) translateY(0)';
+
+  clearTimeout(notifTimer);
+  notifTimer = setTimeout(() => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateX(-50%) translateY(10px)';
+  }, 3200);
+}
+
+
+</script>
+</body>
+</html>
